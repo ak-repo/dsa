@@ -14,6 +14,7 @@ type dnode struct {
 // Interface for all list types
 type LinkedList interface {
 	Append(val int)
+	Prepend(val int)
 	Delete(val int) bool
 	Search(val int) bool
 	Len() int
