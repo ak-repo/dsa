@@ -5,12 +5,11 @@ import (
 	"strings"
 )
 
-
 // Singly Linked List
 
 // single represents a singly linked list.
 type single struct {
-	head *node
+	head *ListNode
 	size int
 }
 
@@ -29,10 +28,10 @@ func (s *single) Len() int {
 	return s.size
 }
 
-// Append adds a value to the end of the list.
+// Append adds a Value to the end of the list.
 // Time Complexity: O(n)
 func (s *single) Append(val int) {
-	n := &node{value: val}
+	n := &ListNode{Value: val}
 
 	if s.head == nil {
 		s.head = n
@@ -41,19 +40,19 @@ func (s *single) Append(val int) {
 	}
 
 	curr := s.head
-	for curr.next != nil {
-		curr = curr.next
+	for curr.Next != nil {
+		curr = curr.Next
 	}
-	curr.next = n
+	curr.Next = n
 	s.size++
 }
 
-// Prepend adds a value to the beginning of the list.
+// Prepend adds a Value to the beginning of the list.
 // Time Complexity: O(1)
 func (s *single) Prepend(val int) {
-	n := &node{
-		value: val,
-		next:  s.head,
+	n := &ListNode{
+		Value: val,
+		Next:  s.head,
 	}
 	s.head = n
 	s.size++
@@ -67,32 +66,32 @@ func (s *single) Delete(val int) bool {
 	}
 
 	// Case: delete head
-	if s.head.value == val {
-		s.head = s.head.next
+	if s.head.Value == val {
+		s.head = s.head.Next
 		s.size--
 		return true
 	}
 
 	prev := s.head
-	curr := s.head.next
+	curr := s.head.Next
 
 	for curr != nil {
-		if curr.value == val {
-			prev.next = curr.next
+		if curr.Value == val {
+			prev.Next = curr.Next
 			s.size--
 			return true
 		}
 		prev = curr
-		curr = curr.next
+		curr = curr.Next
 	}
 
 	return false
 }
 
-// Search checks whether a value exists in the list.
+// Search checks whether a Value exists in the list.
 func (s *single) Search(val int) bool {
-	for curr := s.head; curr != nil; curr = curr.next {
-		if curr.value == val {
+	for curr := s.head; curr != nil; curr = curr.Next {
+		if curr.Value == val {
 			return true
 		}
 	}
@@ -101,11 +100,11 @@ func (s *single) Search(val int) bool {
 
 // Values returns all list elements as a slice snapshot.
 func (s *single) Values() []int {
-	values := make([]int, 0, s.size)
-	for curr := s.head; curr != nil; curr = curr.next {
-		values = append(values, curr.value)
+	Values := make([]int, 0, s.size)
+	for curr := s.head; curr != nil; curr = curr.Next {
+		Values = append(Values, curr.Value)
 	}
-	return values
+	return Values
 }
 
 // String returns a readable representation of the list.
@@ -117,10 +116,14 @@ func (s *single) String() string {
 	var b strings.Builder
 	b.WriteString("Head -> ")
 
-	for curr := s.head; curr != nil; curr = curr.next {
-		fmt.Fprintf(&b, "%d -> ", curr.value)
+	for curr := s.head; curr != nil; curr = curr.Next {
+		fmt.Fprintf(&b, "%d -> ", curr.Value)
 	}
 
 	b.WriteString("nil")
 	return b.String()
+}
+
+func (s *single) Head() *ListNode {
+	return s.head
 }

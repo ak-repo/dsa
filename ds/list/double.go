@@ -7,8 +7,8 @@ import (
 
 // doubly linked list (not exported)
 type doublyList struct {
-	head *dnode
-	tail *dnode
+	head *ListNode
+	tail *ListNode
 	size int
 }
 
@@ -27,9 +27,9 @@ func (l *doublyList) Len() int {
 	return l.size
 }
 
-// Append adds a value to the end of the list.
+// Append adds a Value to the end of the list.
 func (l *doublyList) Append(val int) {
-	n := &dnode{value: val}
+	n := &ListNode{Value: val}
 
 	if l.head == nil {
 		l.head = n
@@ -38,15 +38,15 @@ func (l *doublyList) Append(val int) {
 		return
 	}
 
-	n.prev = l.tail
-	l.tail.next = n
+	n.Prev = l.tail
+	l.tail.Next = n
 	l.tail = n
 	l.size++
 }
 
-// Prepend adds a value to the beginning of the list.
+// Prepend adds a Value to the beginning of the list.
 func (l *doublyList) Prepend(val int) {
-	n := &dnode{value: val}
+	n := &ListNode{Value: val}
 
 	if l.head == nil {
 		l.head = n
@@ -55,8 +55,8 @@ func (l *doublyList) Prepend(val int) {
 		return
 	}
 
-	n.next = l.head
-	l.head.prev = n
+	n.Next = l.head
+	l.head.Prev = n
 	l.head = n
 	l.size++
 }
@@ -64,22 +64,22 @@ func (l *doublyList) Prepend(val int) {
 // Delete removes the first occurrence of val.
 // Returns true if deletion was successful.
 func (l *doublyList) Delete(val int) bool {
-	for curr := l.head; curr != nil; curr = curr.next {
+	for curr := l.head; curr != nil; curr = curr.Next {
 
-		if curr.value != val {
+		if curr.Value != val {
 			continue
 		}
 
-		if curr.prev != nil {
-			curr.prev.next = curr.next
+		if curr.Prev != nil {
+			curr.Prev.Next = curr.Next
 		} else {
-			l.head = curr.next
+			l.head = curr.Next
 		}
 
-		if curr.next != nil {
-			curr.next.prev = curr.prev
+		if curr.Next != nil {
+			curr.Next.Prev = curr.Prev
 		} else {
-			l.tail = curr.prev
+			l.tail = curr.Prev
 		}
 
 		l.size--
@@ -88,10 +88,10 @@ func (l *doublyList) Delete(val int) bool {
 	return false
 }
 
-// Search checks if a value exists in the list.
+// Search checks if a Value exists in the list.
 func (l *doublyList) Search(val int) bool {
-	for curr := l.head; curr != nil; curr = curr.next {
-		if curr.value == val {
+	for curr := l.head; curr != nil; curr = curr.Next {
+		if curr.Value == val {
 			return true
 		}
 	}
@@ -100,11 +100,11 @@ func (l *doublyList) Search(val int) bool {
 
 // Values returns all elements as a slice (snapshot).
 func (l *doublyList) Values() []int {
-	values := make([]int, 0, l.size)
-	for curr := l.head; curr != nil; curr = curr.next {
-		values = append(values, curr.value)
+	Values := make([]int, 0, l.size)
+	for curr := l.head; curr != nil; curr = curr.Next {
+		Values = append(Values, curr.Value)
 	}
-	return values
+	return Values
 }
 
 // String returns a readable representation of the list.
@@ -116,10 +116,14 @@ func (l *doublyList) String() string {
 	var b strings.Builder
 	b.WriteString("Head <-> ")
 
-	for curr := l.head; curr != nil; curr = curr.next {
-		fmt.Fprintf(&b, "%d <-> ", curr.value)
+	for curr := l.head; curr != nil; curr = curr.Next {
+		fmt.Fprintf(&b, "%d <-> ", curr.Value)
 	}
 
 	b.WriteString("nil")
 	return b.String()
+}
+
+func (s *doublyList) Head() *ListNode {
+	return s.head
 }

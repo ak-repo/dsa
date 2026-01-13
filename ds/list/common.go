@@ -1,14 +1,9 @@
 package list
 
-type node struct {
-	value int
-	next  *node
-}
-
-type dnode struct {
-	value int
-	prev  *dnode
-	next  *dnode
+type ListNode struct {
+	Value int
+	Prev  *ListNode
+	Next  *ListNode
 }
 
 // Interface for all list types
@@ -21,4 +16,5 @@ type LinkedList interface {
 	IsEmpty() bool
 	Values() []int
 	String() string
+	Head() *ListNode
 }
